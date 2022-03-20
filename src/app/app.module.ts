@@ -12,8 +12,13 @@ import {EffectsModule} from "@ngrx/effects";
 import {AuthEffects} from "./shared/auth/store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {AuthInterceptorService} from "./shared/services/auth-interceptor.service";
+import {AuthService} from "./shared/services/auth.service";
+import {AuthGuard} from "./shared/guards/auth.guard";
+import {MAT_DATE_FORMATS} from "@angular/material/core";
+import {CUSTOM_DATE_FORMATS} from "./shared/utils/custom-date-format";
 
 @NgModule({
   declarations: [
@@ -31,9 +36,18 @@ import {FormsModule} from "@angular/forms";
     EffectsModule.forRoot([AuthEffects]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
   ],
-  providers: [],
-  exports: [
-  ],
+  providers: [AuthService,
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS
+    }
+    ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

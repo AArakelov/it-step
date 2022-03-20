@@ -5,7 +5,6 @@ import {FilmApiService} from "../../shared/services/film-api.service";
 import {Observable} from "rxjs";
 import {Film} from "../../shared/models/film";
 import {Router} from "@angular/router";
-import {filmPageActions} from "../film-page/store";
 
 @Component({
   selector: 'app-main-page',
@@ -29,6 +28,6 @@ export class MainPageComponent implements OnInit {
 
   public detailFilm(film: Film) {
     this.store.dispatch(masterPageActions.selectFilm({film}));
-    this.router.navigate(['/dashboard/films', 4])
+    this.router.navigate(['/dashboard/films', film.title])
   }
 }

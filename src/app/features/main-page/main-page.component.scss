@@ -16,7 +16,8 @@
       display: flex;
       justify-content: space-between;
       &__item {
-        max-width: 320px;
+        flex-grow: 1;
+        width: 30%;
       }
     }
   }

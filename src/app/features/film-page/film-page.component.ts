@@ -3,9 +3,11 @@ import {masterPageSelectors} from "../master-page/store";
 import {Observable} from "rxjs";
 import {Film, People, Planet, StarShip} from "../../shared/models";
 import {Store} from "@ngrx/store";
-import {FilmApiService} from "../../shared/services/film-api.service";
 import {IColumn} from "../../shared/components/sort-table/sort-table.component";
 import {filmPageSelectors} from "./store";
+import {MatDialog} from "@angular/material/dialog";
+import {StarShipDialogComponent} from "./components/star-ship-dialog/star-ship-dialog.component";
+import {PlanetsDetailDialogComponent} from "./components/planets-detail-dialog/planets-detail-dialog.component";
 
 @Component({
   selector: 'app-film-page',
@@ -13,7 +15,7 @@ import {filmPageSelectors} from "./store";
   styleUrls: ['./film-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FilmPageComponent implements OnInit {
+export class FilmPageComponent {
 
   public starships$: Observable<StarShip[]> = this.store.select(filmPageSelectors.getStarships);
   public peoples$: Observable<People[]> = this.store.select(filmPageSelectors.getPeoples);
@@ -115,18 +117,29 @@ export class FilmPageComponent implements OnInit {
 
   ];
 
-  constructor(private store: Store, private filmService: FilmApiService) {
+  constructor(private store: Store,
+              public dialog: MatDialog) {
   }
 
-  ngOnInit(): void {
+  public openStarShipDialog(event: StarShip) {
+    this.dialog.open(StarShipDialogComponent, {
+        width: '500px',
+        height: '550px',
+        disableClose: true,
+        data: event
+      }
+    )
   }
 
-  test(film: any) {
-    console.log(film)
+  public openPlanetsDialog(planet: Planet){
+    this.dialog.open(PlanetsDetailDialogComponent, {
+        width: '500px',
+        height: '550px',
+        disableClose: true,
+        data: planet
+      }
+    )
   }
 
-  openDialog(event: any) {
-    console.log(event)
 
-  }
 }

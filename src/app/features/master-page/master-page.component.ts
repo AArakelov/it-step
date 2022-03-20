@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 
 @Component({
@@ -7,10 +7,5 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
   styleUrls: ['./master-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MasterPageComponent implements OnInit {
-
-  ngOnInit(): void {
-
-  }
-
+export class MasterPageComponent {
 }

@@ -2,47 +2,45 @@ import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
-import {authActions, authSelectors} from "./index";
-import {catchError, map, of, switchMap, tap} from "rxjs";
-import {UsersService} from "../../services/users.service";
+import {authActions} from "./index";
+import {map, switchMap, tap} from "rxjs";
 import {User} from "../../models/user";
+import {AuthService} from "../../services/auth.service";
 
 @Injectable()
 export class AuthEffects {
   public signIn$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.signIn),
     switchMap(action => {
-      return this.userService.signIn(action.email, action.password).pipe(
+      return this.authService.signIn(action.email, action.password).pipe(
         map(response => {
           const user: User = {
             email: action.email,
             username: action.email,
+            token: response.token
           };
-          localStorage.setItem('token', response.token);
-
-          return authActions.tryLogin({user, isRedirect: true})
+          localStorage.setItem('token', user.token);
+          this.router.navigate(['dashboard/home'])
+          return authActions.loginSuccess({user})
         })
       );
     })
   ));
-  public login$ = createEffect(() => this.actions$.pipe(
-    ofType(authActions.tryLogin),
-    map(action => {
-      if (action.isRedirect) {
-        this.router.navigate(['dashboard/home'])
-        return authActions.loginSuccess({user: action.user})
-      }
 
-      return authActions.loginSuccess({user: action.user})
+  public logout$ = createEffect(() => this.actions$.pipe(
+    ofType(authActions.logout),
+    tap(() => {
+      localStorage.removeItem('token');
+      this.router.navigate(['auth'])
     })
-  ));
+  ), {dispatch: false});
 
 
   constructor(
     private actions$: Actions,
     private store: Store,
     private router: Router,
-    private userService: UsersService
+    private authService: AuthService
   ) {
   }
 }

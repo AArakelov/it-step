@@ -1,15 +1,14 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component, ContentChildren, EventEmitter,
   Input,
   OnChanges,
   OnInit, Output, QueryList,
-  SimpleChanges, TemplateRef
+  SimpleChanges, TemplateRef, ViewChild
 } from '@angular/core';
-import {Sort} from "@angular/material/sort";
+import {MatSort, Sort} from "@angular/material/sort";
 import {TableColumnTemplateDirective} from "../../directives/table-column-template.directive";
 import {Function1, get} from 'lodash'
 
@@ -34,9 +33,12 @@ export class SortTableComponent implements OnInit, OnChanges, AfterContentInit {
   columns: IColumn[];
   @Input() dataSource: any[];
   @Output() rowEmit: EventEmitter<any> = new EventEmitter<any>();
+  @Output()sortChange = new EventEmitter();
 
   @ContentChildren(TableColumnTemplateDirective)
   templates: QueryList<TableColumnTemplateDirective>;
+  @ViewChild(MatSort) sort: MatSort;
+
   displayNameColumns: string[];
   private sortedData: any = [];
 
@@ -44,7 +46,6 @@ export class SortTableComponent implements OnInit, OnChanges, AfterContentInit {
   }
 
   ngOnInit(): void {
-
     this.setDisplayColumns();
     this.cdRef.detectChanges();
   }
@@ -65,23 +66,20 @@ export class SortTableComponent implements OnInit, OnChanges, AfterContentInit {
     }
   }
 
+  sortData(sort: Sort) {
+    const data = this.dataSource.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
 
-  public sortData(sort: Sort) {
-     // const data = this.dataSource.slice();
-    // if (!sort.active || sort.direction === '') {
-    //   this.sortedData = data;
-    //   return;
-    // }
-
-    // this.sortedData = data.sort((a, b) => {
-    //   const isAsc = sort.direction === 'asc';
-    //   switch (sort.active) {
-    //     case 'name':
-    //       return compare(a.name, b.name, isAsc);
-    //     default:
-    //       return 0;
-    //   }
-    // });
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'Name': return compare(a.name, b.name, isAsc);
+        default: return 0;
+      }
+    });
   }
 
   private setDisplayColumns() {
@@ -106,6 +104,7 @@ export class SortTableComponent implements OnInit, OnChanges, AfterContentInit {
   }
 
 }
+
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);

@@ -11,6 +11,4 @@ export const loadPageDataSuccess = createAction('[Page film] Load data success',
   props<{planets: Planet[], peoples: People[], starships: StarShip[]}>());
 export const loadDataFailed = createAction('[Page film] Load data failed');
 
-export const loadStarShips= createAction('[Page film] Load starShips');
-export const loadStarShipsSuccess = createAction('[Page film] Load starShips success');
-export const loadStarShipsFailed = createAction('[Page film] Load starShips failed');
+

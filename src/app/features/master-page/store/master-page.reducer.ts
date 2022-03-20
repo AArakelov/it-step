@@ -2,8 +2,7 @@ import {StarShip} from "../../../shared/models/starship";
 import {Action, createReducer, on} from "@ngrx/store";
 import {masterPageActions} from "./index";
 import {Film} from "../../../shared/models/film";
-import {selectFilm} from "./master-page.actions";
-import {filmPageActions} from "../../film-page/store";
+
 
 export const pageMainFeatureKey = 'masterPage';
 

@@ -7,7 +7,6 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {TableColumnTemplateDirective} from "../../shared/directives/table-column-template.directive";
 
 const routes: Routes = [
   {
@@ -42,7 +41,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatFormFieldModule,
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MasterPageModule {
 }

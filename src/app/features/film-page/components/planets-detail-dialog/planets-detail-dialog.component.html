@@ -1,0 +1,15 @@
+<mat-card class="mat-elevation-z0">
+  <mat-card-title>{{data?.name}}</mat-card-title>
+  <mat-card-subtitle>Model: {{data?.diameter}}</mat-card-subtitle>
+  <mat-card-subtitle>Consumables: {{data?.rotation_period}}</mat-card-subtitle>
+  <mat-card-subtitle>Cost in credits: {{data?.orbital_period}}</mat-card-subtitle>
+  <mat-card-subtitle>Crew: {{data?.gravity}}</mat-card-subtitle>
+<!--  <mat-card-subtitle>Created: {{data?.created }}</mat-card-subtitle>-->
+  <mat-card-subtitle>Length: {{data?.population  | date: 'd.M.yyyy'}}</mat-card-subtitle>
+  <mat-card-subtitle>Manufacturer: {{data?.climate}}</mat-card-subtitle>
+  <mat-card-subtitle>Max_Atmosphering_Speed: {{data?.terrain }}</mat-card-subtitle>
+  <mat-card-subtitle>Passengers: {{data?.surface_water }}</mat-card-subtitle>
+</mat-card>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

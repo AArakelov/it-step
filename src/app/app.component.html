@@ -1,6 +1,9 @@
 <mat-toolbar class="header">
-  <h1 class="header__name">Arakelov Armen</h1>
-  <button class="header__actions" mat-button>Sign in</button>
+  <ng-container *ngIf="user$ | async as user">
+    <h1 class="header__name">{{user?.username}}</h1>
+    <button (click)="onSubmit(user?.token)" [textContent]="user.token ? 'Sign out' : 'Sign In'"  class="header__actions" mat-button></button>
+  </ng-container>
+
 </mat-toolbar>
 
 <div class="container">

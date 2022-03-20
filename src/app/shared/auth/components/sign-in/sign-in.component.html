@@ -10,6 +10,6 @@
       <mat-label>Enter your password</mat-label>
       <input formControlName="password" matInput placeholder="******" required>
     </mat-form-field>
-    <button type="submit" (click)="signIn()" mat-button color="primary">Sign in</button>
+    <button [disabled]="form.invalid" type="submit" (click)="signIn()" mat-button color="primary">Sign in</button>
   </form>
 

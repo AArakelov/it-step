@@ -1,7 +1,3 @@
-import {Planet} from "./planet";
-import {StarShip} from "./starship";
-import {People} from "./people";
-
 export interface Film{
   title: string;
   episode_id: number;
