@@ -1,0 +1,7 @@
+<table matSort (matSortChange)="sortData($event)" matSortActive="carbs" matSortDirection="asc">
+  <tr>
+    <th *ngFor="let column of columns" mat-sort-header="name">{{column}}/th>
+  </tr>
+
+  <ng-content></ng-content>
+</table>

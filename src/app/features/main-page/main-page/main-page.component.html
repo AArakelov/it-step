@@ -1,0 +1,21 @@
+<div class="main-page">
+  <div class="film-list">
+    <ng-container *ngIf="!(isLoading$ | async); else loading">
+      <mat-card *ngFor="let film of films$ | async" class="film-list__item">
+        <mat-card-title>{{film.title}}</mat-card-title>
+        <mat-card-subtitle>{{film.release_date}}</mat-card-subtitle>
+        <mat-card-content>
+          <p>{{film.producer}}</p>
+          <p>{{film.opening_crawl}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="button" (click)="detailFilm(film)" mat-button>more...</button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #loading>
+  ...loading
+</ng-template>

@@ -1,0 +1,36 @@
+.main-page{
+  .film-list{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    &__item{
+      width: 100%;
+    }
+  }
+}
+
+// < 1200px
+@media (min-width: 1280px) {
+  .main-page {
+    .film-list {
+      display: flex;
+      justify-content: space-between;
+      &__item {
+        max-width: 320px;
+      }
+    }
+  }
+}
+
+// < 992px
+@media (min-width: 992px) {
+}
+
+// < 768px
+@media (min-width: 768px) {
+}
+
+
+// < 576px
+@media (min-width: 576px) {
+}

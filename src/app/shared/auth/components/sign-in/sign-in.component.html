@@ -1,0 +1,15 @@
+  <form [formGroup]="form" class="form" action="">
+    <div class="form__title">
+      Sign in
+    </div>
+    <mat-form-field appearance="outline">
+        <mat-label>Enter your email</mat-label>
+        <input formControlName="email" matInput placeholder="pat@example.com" required>
+      </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Enter your password</mat-label>
+      <input formControlName="password" matInput placeholder="******" required>
+    </mat-form-field>
+    <button type="submit" (click)="signIn()" mat-button color="primary">Sign in</button>
+  </form>
+
