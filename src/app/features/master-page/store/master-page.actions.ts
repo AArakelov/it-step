@@ -4,7 +4,7 @@ import {Film} from "../../../shared/models/film";
 
 
 export const loadStarShips = createAction('[Master page] Load starships');
-export const loadStarShipsSuccess = createAction('[Master page] Load starships success', props<{starShips: StarShip[]}>());
+export const loadStarShipsSuccess = createAction('[Master page] Load starships success', props<{starsShips: StarShip[]}>());
 export const loadStarShipsFailed = createAction('[Master page] Load starships failed');
 
 

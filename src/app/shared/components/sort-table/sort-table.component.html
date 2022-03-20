@@ -1,7 +1,36 @@
-<table matSort (matSortChange)="sortData($event)" matSortActive="carbs" matSortDirection="asc">
-  <tr>
-    <th *ngFor="let column of columns" mat-sort-header="name">{{column}}/th>
-  </tr>
+<mat-table
+  class="mat-elevation-z3"
+  matSort
+  (matSortChange)="sortData($event)"
+  [dataSource]="dataSource"
+>
+  <ng-container *ngFor="let col of columns">
+    <ng-container [matColumnDef]="col.propertyPath">
+      <ng-container *ngIf="!col.sortTable">
+        <mat-header-cell *matHeaderCellDef>
+          <ng-container>
+            {{col.label}}
+          </ng-container>
+        </mat-header-cell>
+      </ng-container>
 
-  <ng-content></ng-content>
-</table>
+      <ng-container *ngIf="col.sortTable">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <ng-container *ngIf="col.headerTemplate">
+            {{col.label}}
+          </ng-container>
+        </mat-header-cell>
+      </ng-container>
+
+      <mat-cell *matCellDef="let i = index">
+      <ng-container [ngTemplateOutlet]="col.template" [ngTemplateOutletContext]="{row: dataSource[i]}" >
+      </ng-container>
+      </mat-cell>
+    </ng-container>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayNameColumns"></mat-header-row>
+  <mat-row
+    (click)="rowEmit.emit(row)"
+    *matRowDef="let row; columns: displayNameColumns; let i = index"></mat-row>
+</mat-table>

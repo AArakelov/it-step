@@ -7,5 +7,5 @@ const getState = createFeatureSelector<MasterPageState>(pageMainFeatureKey);
 export const getIsLoading = createSelector(getState, state => state.isLoading);
 export const getFilms = createSelector(getState, state => state.films)
 
-export const getDetailFilm = createSelector(getState, state => state.selectFilm)
+export const getDetailFilm = createSelector(getState, state => state?.selectFilm)
 

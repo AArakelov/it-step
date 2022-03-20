@@ -9,8 +9,8 @@ export interface Film{
   opening_crawl: string;
   release_date: Date;
   url: string;
-  planets: Planet[];
-  starShips: StarShip[];
-  peoples: People[]
+  planets: string[];
+  starships: string[];
+  peoples: string[]
 }
 

@@ -1,12 +1,13 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MasterPageComponent} from './master-page/master-page.component';
+import {MasterPageComponent} from './master-page.component';
 import {RouterModule, Routes} from "@angular/router";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {TableColumnTemplateDirective} from "../../shared/directives/table-column-template.directive";
 
 const routes: Routes = [
   {
@@ -31,8 +32,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    MasterPageComponent
-  ],
+    MasterPageComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -40,7 +40,7 @@ const routes: Routes = [
     MatCheckboxModule,
     MatToolbarModule,
     ReactiveFormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
   ],
   exports: [RouterModule]
 })

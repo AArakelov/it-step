@@ -1,5 +1,26 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, ContentChildren, EventEmitter,
+  Input,
+  OnChanges,
+  OnInit, Output, QueryList,
+  SimpleChanges, TemplateRef
+} from '@angular/core';
 import {Sort} from "@angular/material/sort";
+import {TableColumnTemplateDirective} from "../../directives/table-column-template.directive";
+import {Function1, get} from 'lodash'
+
+export interface IColumn {
+  label: string;
+  propertyPath: string;
+  sortTable?: boolean;
+  defaultValue?: any;
+  headerTemplate?: any;
+  template?: any
+}
 
 @Component({
   selector: 'app-sort-table',
@@ -7,38 +28,83 @@ import {Sort} from "@angular/material/sort";
   styleUrls: ['./sort-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SortTableComponent implements OnInit {
+export class SortTableComponent implements OnInit, OnChanges, AfterContentInit {
 
-  @Input() columns: string[];
-  @Input() dataSource: any = []
+  @Input()
+  columns: IColumn[];
+  @Input() dataSource: any[];
+  @Output() rowEmit: EventEmitter<any> = new EventEmitter<any>();
 
-  private sortedData: any = []
+  @ContentChildren(TableColumnTemplateDirective)
+  templates: QueryList<TableColumnTemplateDirective>;
+  displayNameColumns: string[];
+  private sortedData: any = [];
 
-  constructor() {
-    this.sortData = this.dataSource.slice()
+  constructor(private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+
+    this.setDisplayColumns();
+    this.cdRef.detectChanges();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['columns']) {
+      this.setDisplayColumns();
+      this.cdRef.detectChanges();
+    }
+  }
+
+  ngAfterContentInit() {
+    this.setTemplate('template', (x) => !x.header)
+    this.setTemplate('headerTemplate', (x) => !x.header)
+
+    if (this.columns.find(x => x.template)) {
+      this.cdRef.detectChanges()
+    }
   }
 
 
   public sortData(sort: Sort) {
-    const data = this.dataSource.slice();
-    if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
-      return;
-    }
+     // const data = this.dataSource.slice();
+    // if (!sort.active || sort.direction === '') {
+    //   this.sortedData = data;
+    //   return;
+    // }
 
-    this.sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'name':
-          return compare(a.name, b.name, isAsc);
-        default:
-          return 0;
-      }
-    });
+    // this.sortedData = data.sort((a, b) => {
+    //   const isAsc = sort.direction === 'asc';
+    //   switch (sort.active) {
+    //     case 'name':
+    //       return compare(a.name, b.name, isAsc);
+    //     default:
+    //       return 0;
+    //   }
+    // });
   }
+
+  private setDisplayColumns() {
+    const columns = this.columns.map(col => col.propertyPath);
+    this.displayNameColumns = columns;
+  }
+
+  private setTemplate(settableField: string, filter: Function1<TableColumnTemplateDirective, boolean>) {
+    const allTemplate = this.templates.toArray();
+    const templates = allTemplate.filter(filter);
+
+    let templateMap = new Map<string, TemplateRef<any>>();
+    if (templates.length !== 0) {
+      templates.forEach((t)=> {
+        templateMap.set(t.columnName, t.templateRef);
+      })
+      this.columns.forEach((col) => {
+        // @ts-ignore
+        col[settableField] = templateMap.get(col.propertyPath)
+      });
+    }
+  }
+
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {

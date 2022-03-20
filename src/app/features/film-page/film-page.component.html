@@ -1,0 +1,90 @@
+<ng-container *ngIf="films$ | async as filmData">
+  <div class="detail-page">
+    <h1 class="detail-page__title">{{filmData.title}}</h1>
+    <div class="detail-page__description">{{filmData.opening_crawl}}</div>
+    <div class="detail-page__release">Release: {{filmData.release_date}}</div>
+  </div>
+  <ng-container *ngIf="isLoaded$ | async">
+    <ng-container *ngTemplateOutlet="tableStarships"></ng-container>
+<!--    <ng-container *ngTemplateOutlet="tablePeoples"></ng-container>-->
+    <ng-container *ngTemplateOutlet="tablePlanets"></ng-container>
+  </ng-container>
+
+  <ng-template #tableStarships>
+    <h3>Star ship</h3>
+    <app-sort-table
+      matSort
+      [dataSource]="starships$ | async"
+      [columns]="startShipsColumn">
+      <ng-template  columnName="Name" [header]="false" let-row="row" appTableColumnTemplate>
+      <div>{{row?.name}}</div>
+      </ng-template>
+      <ng-template columnName="StarshipClass" let-row="row" appTableColumnTemplate>
+       {{row.starship_class}}
+      </ng-template>
+      <ng-template columnName="Passengers" let-row="row" appTableColumnTemplate>
+        {{row.passengers}}
+      </ng-template>
+
+      <ng-template columnName="Length" let-row="row" appTableColumnTemplate>
+        {{row.length}}
+      </ng-template>
+
+      <ng-template columnName="Created" let-row="row" appTableColumnTemplate>
+        {{row.created | date: 'd/M/yyyy'}}
+      </ng-template>
+    </app-sort-table>
+  </ng-template>
+  <ng-template #tablePeoples>
+    <ng-container *ngIf="(peoples$ | async)">
+      <h3>Peoples</h3>
+      <app-sort-table
+        matSort
+        [dataSource]="peoples$ | async"
+        [columns]="peopleColumn">
+        <ng-template columnName="Name" let-row="row" appTableColumnTemplate>
+          <button (click)="test(row)">click</button>
+        </ng-template>
+        <ng-template columnName="Gender" let-row="row" appTableColumnTemplate>
+          <!--        {{row.gender}}-->
+        </ng-template>
+        <ng-template columnName="Height" let-row="row" appTableColumnTemplate>
+          {{row.height}}
+        </ng-template>
+
+        <ng-template columnName="Mass" let-row="row" appTableColumnTemplate>
+          {{row.mass}}
+        </ng-template>
+
+        <ng-template columnName="Created" let-row="row" appTableColumnTemplate>
+          {{row.created | date: 'd.M.yyyy'}}
+        </ng-template>
+      </app-sort-table>
+    </ng-container>
+
+  </ng-template>
+  <ng-template #tablePlanets>
+    <h3>Planets</h3>
+    <app-sort-table
+      (rowEmit)="openDialog($event)"
+      matSort
+      [dataSource]="planets$ | async"
+      [columns]="planetsColumn">
+      <ng-template columnName="Name" let-row="row" appTableColumnTemplate>
+        {{row.name}}
+      </ng-template>
+      <ng-template columnName="Climate" let-row="row" appTableColumnTemplate>
+        {{row.climate}}
+      </ng-template>
+      <ng-template columnName="Gravity" let-row="row" appTableColumnTemplate>
+        {{row.gravity}}
+      </ng-template>
+      <ng-template columnName="Population" let-row="row" appTableColumnTemplate>
+        {{row.population}}
+      </ng-template>
+      <ng-template columnName="Created" let-row="row" appTableColumnTemplate>
+        {{row.created | date: 'd.M.yyyy'}}
+      </ng-template>
+    </app-sort-table>
+  </ng-template>
+</ng-container>

@@ -1,10 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {masterPageActions, masterPageSelectors} from "../../master-page/store";
-import {FilmApiService} from "../../../shared/services/film-api.service";
+import {masterPageActions, masterPageSelectors} from "../master-page/store";
+import {FilmApiService} from "../../shared/services/film-api.service";
 import {Observable} from "rxjs";
-import {Film} from "../../../shared/models/film";
+import {Film} from "../../shared/models/film";
 import {Router} from "@angular/router";
+import {filmPageActions} from "../film-page/store";
 
 @Component({
   selector: 'app-main-page',
@@ -28,6 +29,6 @@ export class MainPageComponent implements OnInit {
 
   public detailFilm(film: Film) {
     this.store.dispatch(masterPageActions.selectFilm({film}));
-    this.router.navigate(['/dashboard/films', film.episode_id])
+    this.router.navigate(['/dashboard/films', 4])
   }
 }

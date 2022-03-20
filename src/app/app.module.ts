@@ -30,9 +30,10 @@ import {FormsModule} from "@angular/forms";
     StoreModule.forRoot(reducers, {metaReducers}),
     EffectsModule.forRoot([AuthEffects]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-
   ],
   providers: [],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
